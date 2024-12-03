@@ -6,6 +6,7 @@ import cors from 'cors';
 import authRoutes from './routes/auth.js';
 import postRoutes from './routes/post.js';
 import connectDB from './config/db.js';
+
 const app = express();
 app.use(cors({
   origin: 'http://localhost:5173', // Vite's default port

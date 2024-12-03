@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { TextField, Button, Box, Typography, Paper, Avatar, Link } from '@mui/material';
+import { FiLogIn } from 'react-icons/fi';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -10,60 +12,90 @@ const Login = () => {
     try {
       const response = await axios.post('http://localhost:5000/api/auth/login', { email, password });
       localStorage.setItem('token', response.data.token);
-      alert('Logged in successfully');
+      alert('Welcome back! You have successfully logged in.');
     } catch (error) {
       console.error('Login error:', error);
-      alert('Login failed. Please try again.');
+      alert('Failed to login. Please check your credentials.');
     }
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      <form
-        onSubmit={handleSubmit}
-        className="w-full max-w-sm p-6 bg-white rounded-lg shadow-md"
+    <Box
+      sx={{
+        minHeight: '100vh',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        background: 'linear-gradient(135deg, #6EE7B7, #3B82F6)',
+        p: 2,
+      }}
+    >
+      <Paper
+        elevation={6}
+        sx={{
+          p: 4,
+          maxWidth: 400,
+          width: '100%',
+          borderRadius: 2,
+        }}
       >
-        <h2 className="mb-6 text-2xl font-semibold text-center text-gray-700">Login</h2>
-        <div className="mb-4">
-          <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-600">
-            Email
-          </label>
-          <input
-            type="email"
-            id="email"
-            placeholder="Enter your email"
+        <Box textAlign="center" mb={3}>
+          <Avatar
+            sx={{
+              mx: 'auto',
+              bgcolor: 'primary.main',
+              width: 56,
+              height: 56,
+            }}
+          >
+            <FiLogIn size={32} />
+          </Avatar>
+          <Typography variant="h5" component="h1" mt={2}>
+            Login
+          </Typography>
+          <Typography color="textSecondary" variant="body2">
+            Access your account to continue
+          </Typography>
+        </Box>
+        <form onSubmit={handleSubmit}>
+          <TextField
+            label="Email"
+            variant="outlined"
+            fullWidth
+            margin="normal"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400"
+            required
           />
-        </div>
-        <div className="mb-6">
-          <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-600">
-            Password
-          </label>
-          <input
+          <TextField
+            label="Password"
             type="password"
-            id="password"
-            placeholder="Enter your password"
+            variant="outlined"
+            fullWidth
+            margin="normal"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400"
+            required
           />
-        </div>
-        <button
-          type="submit"
-          className="w-full px-4 py-2 text-white bg-green-500 rounded-lg hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-400"
-        >
-          Login
-        </button>
-        <p className="mt-4 text-sm text-center text-gray-600">
-          Don't have an account?{' '}
-          <a href="/register" className="text-green-500 hover:underline">
-            Sign Up
-          </a>
-        </p>
-      </form>
-    </div>
+          <Button
+            type="submit"
+            variant="contained"
+            color="primary"
+            fullWidth
+            size="large"
+            sx={{ mt: 2, mb: 1 }}
+          >
+            Login
+          </Button>
+        </form>
+        <Typography align="center" mt={2} variant="body2" color="textSecondary">
+          Don’t have an account?{' '}
+          <Link href="/register" color="primary" underline="hover">
+            Sign up
+          </Link>
+        </Typography>
+      </Paper>
+    </Box>
   );
 };
 
